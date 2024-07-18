@@ -6,11 +6,30 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:17:09 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/17 15:00:12 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:41:26 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+// -lmlx -lXext- lX11
+//cc *.c -L../Libft -lft -L../minilibx-linux
+// -lmlx -lXext -lX11 -lm -o fdf
+
+int deal_key(int key, t_fdf *data)
+{
+    ft_printf("%d\n", key);
+    if (key == 65363)
+        data->shift_x += 10;
+    if (key == 65361)
+        data->shift_x -= 10;
+    if (key == 65364)
+        data->shift_y += 10;
+    if (key == 65362)
+        data->shift_y -= 10;
+    ft_draw(data);
+    return (0);
+}
 
 int main(int argc, char **argv)
 {
@@ -18,10 +37,11 @@ int main(int argc, char **argv)
 
     data = (t_fdf *)malloc(sizeof(t_fdf));
     ft_read_file(argv[1], data);
-    
+
+    // affichage tableau z_matrice
     int i;
     int j;
-    
+
     i = 0;
     while (i < data->height)
     {
@@ -34,5 +54,31 @@ int main(int argc, char **argv)
         i++;
         ft_printf("\n");
     }
+    
+    // zoom
+    data->zoom = 20;
+    
+    // Ici nous initialisons la fenetre
+    data->mlx_ptr = mlx_init();
+    
+    // C'est pour ouvrir la fenetre de taille h = 1000 et l = 1000
+    // nomme "FDF".
+    data->win_ptr = mlx_new_window(data->mlx_ptr, 1000, 1000, "FDF");
+    
+    // dessiner une line
+        // bresenham(10, 10, 600, 300, data);
+        
+    // dessiner data->z_matrice
+    ft_draw(data);
+    
+    // pour la partie BONUS
+    //      une fonction qui va nous permettre d'imprimer un
+    //      message a chaque fois que nous appuierons sur une touche.
+    mlx_key_hook(data->win_ptr, deal_key, data);
+    
+    // une fonction que fait durer la fenetre, c'est comme une 
+    // boucle infini
+    mlx_loop(data->mlx_ptr);
+    
     return (0);
 }
