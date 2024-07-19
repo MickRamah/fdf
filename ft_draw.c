@@ -6,13 +6,13 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 10:07:44 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/18 16:39:21 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:14:46 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-// #define MAX(a, b) (a > b ? a : b)
+// // #define MAX(a, b) (a > b ? a : b)
 #define ABS(n) (n < 0 ? -n : n)
 
 // float   abs(float n)
@@ -52,12 +52,12 @@ void    bresenham(float x, float y, float x1, float y1, t_fdf *data)
     // Ajout 3D
     ft_isometric(&x, &y, z);
     ft_isometric(&x1, &y1, z1);
+    
+    x += data->x_translate;
+    y += data->y_translate;
+    x1 += data->x_translate;
+    y1 += data->y_translate;
 
-    x += data->shift_x;
-    y += data->shift_y;
-    x1 += data->shift_x;
-    y1 += data->shift_y;
-        
     x_step = x1 - x;
     y_step = y1 - y;
 

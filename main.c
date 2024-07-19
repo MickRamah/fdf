@@ -6,7 +6,7 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:17:09 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/18 16:41:26 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:15:40 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,20 @@
 // -lmlx -lXext- lX11
 //cc *.c -L../Libft -lft -L../minilibx-linux
 // -lmlx -lXext -lX11 -lm -o fdf
+// gcc *.c libft/libft.a minilibx-linux/libmlx.a -lX11 -lm -lXext
 
 int deal_key(int key, t_fdf *data)
 {
     ft_printf("%d\n", key);
     if (key == 65363)
-        data->shift_x += 10;
+        data->x_translate += 10;
     if (key == 65361)
-        data->shift_x -= 10;
+        data->x_translate -= 10;
     if (key == 65364)
-        data->shift_y += 10;
+        data->y_translate += 10;
     if (key == 65362)
-        data->shift_y -= 10;
+        data->y_translate -= 10;
+    mlx_clear_window(data->mlx_ptr, data->win_ptr);
     ft_draw(data);
     return (0);
 }
@@ -57,6 +59,8 @@ int main(int argc, char **argv)
     
     // zoom
     data->zoom = 20;
+    data->x_translate = 200;
+    data->y_translate = 50;
     
     // Ici nous initialisons la fenetre
     data->mlx_ptr = mlx_init();
@@ -79,6 +83,5 @@ int main(int argc, char **argv)
     // une fonction que fait durer la fenetre, c'est comme une 
     // boucle infini
     mlx_loop(data->mlx_ptr);
-    
     return (0);
 }

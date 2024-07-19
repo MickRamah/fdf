@@ -6,7 +6,7 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:54:51 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/18 16:39:03 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:21:36 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ typedef struct  s_fdf
     int **z_matrix;
     int zoom;
     int color;
-    int shift_x;
-    int shift_y;
+    int x_translate;
+    int y_translate;
     
     void    *mlx_ptr;
     void    *win_ptr;
