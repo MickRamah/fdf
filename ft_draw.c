@@ -6,89 +6,98 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 10:07:44 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/19 15:14:46 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:03:04 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-// // #define MAX(a, b) (a > b ? a : b)
 #define ABS(n) (n < 0 ? -n : n)
+#define MAX(a, b) (a > b ? a : b)
 
 // float   abs(float n)
 // {
 //     return (n < 0) ? -n : n;
 // }
 
-void    ft_isometric(float *x, float *y, int z)
+void    isometric(t_dot *dot, float angle)
 {
-    int tmp;
-
-    tmp = *x;
-    *x = (tmp - *y) * cos(0.523599);
-    *y = (tmp + *y) * sin(0.523599) - z;
+    dot->x = (dot->x - dot->y) * cos(angle);
+	dot->y = (dot->x + dot->y) * sin(angle) - dot->z;
 }
 
-void    bresenham(float x, float y, float x1, float y1, t_fdf *data)
+void    ft_set_param(t_dot *a, t_dot *b, t_dot *param)
 {
-    float   x_step;   
-    float   y_step;
-    int     max;
-    int     z;
-    int     z1;
-    
-    z = data->z_matrix[(int)y][(int)x];
-    z1 = data->z_matrix[(int)y1][(int)x1];
-    
-    //zoom
-    x *= data->zoom;
-    y *= data->zoom;
-    x1 *= data->zoom;
-    y1 *= data->zoom;
-    
-    //couleur
-    data->color = (z || z1) ? 0xe80c0c : 0xffffff;
-    
-    // Ajout 3D
-    ft_isometric(&x, &y, z);
-    ft_isometric(&x1, &y1, z1);
-    
-    x += data->x_translate;
-    y += data->y_translate;
-    x1 += data->x_translate;
-    y1 += data->y_translate;
+    /*zoom*/
+    a->x *= param->scale;
+    a->y *= param->scale;
+    b->x *= param->scale;
+	b->y *= param->scale;
+    a->z *= param->z_scale;
+	b->z *= param->z_scale;
 
-    x_step = x1 - x;
-    y_step = y1 - y;
+    /*Ajout 3D*/
+    if (param->is_isometric)
+	{
+		isometric(a, param->angle);
+		isometric(b, param->angle);
+	}
+    
+    // translation
+    a->x += param->shift_x;
+	a->y += param->shift_y;
+	b->x += param->shift_x;
+	b->y += param->shift_y;
+}
 
-    max = MAX(ABS(x_step), ABS(y_step));
-    x_step /= max;
-    y_step /= max;
-    while ((int)(x - x1) || (int)(y - y1))
+void    trace_line(t_dot a, t_dot b, t_dot *param)
+{
+    float   step_x;
+    float   step_y;
+    float   max;
+    int		color;
+
+    /*set-param*/
+    ft_set_param(&a, &b, param);
+    
+    step_x = b.x - a.x;
+    step_y = b.y - a.y;
+    max = MAX(ABS(step_x), ABS(step_y));
+    step_x /= max;
+    step_y /= max;
+    
+    /*color*/
+    color = (b.z || a.z) ? 0xfc0345 : 0xffffff;
+	color = (b.z != a.z) ? 0xfc031c : color;
+    
+    while ((int)(a.x - b.x) || (int)(a.y - b.y))
     {
-        mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->color);
-        x += x_step;
-        y += y_step;
+        mlx_pixel_put(param->mlx_ptr, param->win_ptr, a.x, a.y, color);
+        a.x += step_x;
+        a.y += step_y;
+        if (a.x > param->win_x || a.y > param->win_y || a.y < 0 || a.x < 0)
+			break ;
     }
 }
 
-void    ft_draw(t_fdf *data)
+void    ft_draw(t_dot **matrix)
 {
     int x;
     int y;
 
+    // ft_print_menu(PRM);
     y = 0;
-    while (y < data->height)
+    while (matrix[y])
     {
         x = 0;
-        while (x < data->width)
+        while (1)
         {
-            // line = -> (horizontale)
-            if (x < data->width - 1)
-                bresenham(x, y, x + 1 , y, data);
-            // line = | (verticale)
-            if (y < data->height - 1)
-                bresenham(x, y, x , y + 1, data);
+            if (matrix[y + 1])
+                trace_line(matrix[y][x], matrix[y + 1][x], &PRM);
+             if (!matrix[y][x].is_last)
+                 trace_line(matrix[y][x], matrix[y][x + 1], &PRM);
+            if (matrix[y][x].is_last)
+				break ;
             x++;
         }
         y++;
