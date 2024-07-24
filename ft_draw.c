@@ -6,7 +6,7 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 10:07:44 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/22 13:03:04 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:12:17 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@
 //     return (n < 0) ? -n : n;
 // }
 
+void	my_mlx_pixel_put(t_dot *param, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = param->data_addr + (y * param->line_length + x * (param->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
 void    isometric(t_dot *dot, float angle)
 {
     dot->x = (dot->x - dot->y) * cos(angle);
@@ -28,7 +36,7 @@ void    isometric(t_dot *dot, float angle)
 
 void    ft_set_param(t_dot *a, t_dot *b, t_dot *param)
 {
-    /*zoom*/
+    // /*zoom*/
     a->x *= param->scale;
     a->y *= param->scale;
     b->x *= param->scale;
@@ -72,7 +80,7 @@ void    trace_line(t_dot a, t_dot b, t_dot *param)
     
     while ((int)(a.x - b.x) || (int)(a.y - b.y))
     {
-        mlx_pixel_put(param->mlx_ptr, param->win_ptr, a.x, a.y, color);
+        my_mlx_pixel_put(param, a.x, a.y, color);
         a.x += step_x;
         a.y += step_y;
         if (a.x > param->win_x || a.y > param->win_y || a.y < 0 || a.x < 0)
@@ -90,16 +98,15 @@ void    ft_draw(t_dot **matrix)
     while (matrix[y])
     {
         x = 0;
-        while (1)
+        while (x < 19)
         {
-            if (matrix[y + 1])
+            if (x < 18)
+                trace_line(matrix[y][x], matrix[y][x + 1], &PRM);
+            if (y < 10)
                 trace_line(matrix[y][x], matrix[y + 1][x], &PRM);
-             if (!matrix[y][x].is_last)
-                 trace_line(matrix[y][x], matrix[y][x + 1], &PRM);
-            if (matrix[y][x].is_last)
-				break ;
             x++;
         }
         y++;
     }
+    mlx_put_image_to_window(PRM.mlx_ptr, PRM.win_ptr, PRM.img, 0, 0);
 }

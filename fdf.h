@@ -6,7 +6,7 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:54:51 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/22 13:03:01 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:59:30 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,23 @@
 # include <math.h>
 # define PRM matrix[0][0]
 
+typedef struct  s_data_map
+{
+	int	width;
+	int	height;
+}   t_data_map;
+
 typedef struct  s_dot
 {
     float		x;
 	float		y;
 	float       z;
 
+	int			is_last;
 	int			win_x;
 	int			win_y;
 	int			scale;
 	int			z_scale;
-	int			is_last;
 	int			is_isometric;
 	double		angle;
 	int			shift_x;
@@ -37,6 +43,13 @@ typedef struct  s_dot
 
     void		*mlx_ptr;
 	void		*win_ptr;
+	
+	void		*img;
+	char		*data_addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	
 }   t_dot;
 
 t_dot			**read_map(char *file_name);

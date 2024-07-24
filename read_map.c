@@ -6,7 +6,7 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:33:08 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/22 14:00:22 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:06:36 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int		get_dots_from_line(char *line, t_dot **matrix_of_dots, int y)
 		matrix_of_dots[y][x].is_last = 0;
 		free(dots[x++]);
 	}
+	matrix_of_dots[y][x].is_last = 1;
 	free(dots);
 	free(line);
-	matrix_of_dots[y][--x].is_last = 1;
 	return (x);
 }
 
