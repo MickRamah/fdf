@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vinograd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/06 13:04:52 by vinograd          #+#    #+#             */
-/*   Updated: 2019/05/06 19:53:35 by vinograd         ###   ########.fr       */
+/*   Created: 2024/03/05 14:55:51 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/03/05 16:01:03 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,25 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char			*str;
-	size_t			len;
-	unsigned int	i;
+	size_t	i;
+	char	*dest;
 
-	if (s == NULL || f == NULL)
-		return (NULL);
-	len = ft_strlen(s);
-	str = (char *)malloc(len + 1);
-	if (str == NULL)
+	dest = malloc(ft_strlen(s) + 1);
+	if (!dest)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i < ft_strlen(s))
 	{
-		str[i] = (*f)(i, s[i]);
+		dest[i] = f(i, s[i]);
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	dest[i] = '\0';
+	return (dest);
 }
+
+/*int	main(void)
+{
+	char	tab[20] = "bonjour";
+	ft_strmapi(tab, );
+	return (0);
+}*/

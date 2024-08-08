@@ -3,36 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vinograd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/30 21:04:22 by vinograd          #+#    #+#             */
-/*   Updated: 2019/05/03 19:21:50 by vinograd         ###   ########.fr       */
+/*   Created: 2024/02/23 10:15:02 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/03/03 11:57:49 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+/*#include <stdio.h>
+#include <string.h>
+
+char	*ft_strnstr(const char *big, const char *little, size_t len);
+
+int	main()
 {
-	size_t i;
-	size_t j;
-	size_t n;
+        char		*ptr1;
+        char		*ptr2;
 
+        ptr1 = ft_strnstr("fake you mum", "you", 10);
+        ptr2 = ft_strnstr(((void*)0), "fake", 3);
+	printf("ftstrnstr = %s\n", ptr1);
+	printf("ft_strnstr = %s\n", ptr2);
+	return (0);
+}*/
+
+char	*ft_strnstr(const char *big, const char *little, size_t len)
+{
+	size_t	i;
+	size_t	n;
+
+	n = ft_strlen(little);
+	if (n == 0)
+		return ((char *)big);
 	i = 0;
-	if (needle[i] == '\0')
-		return ((char*)haystack);
-	while (haystack[i] && i < len)
+	while (big[i] && i < len)
 	{
-		j = 0;
-		n = i;
-		while (haystack[n] == needle[j] && n < len)
+		if (ft_strncmp(&big[i], little, n) == 0)
 		{
-			if (needle[j + 1] == '\0')
-				return ((char*)&haystack[i]);
-			j++;
-			n++;
+			if (i + n > len)
+				return (NULL);
+			return ((char *)big + i);
 		}
 		i++;
 	}
-	return (0);
+	return (NULL);
 }

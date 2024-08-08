@@ -3,39 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vinograd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/06 15:23:25 by vinograd          #+#    #+#             */
-/*   Updated: 2019/05/09 18:34:47 by vinograd         ###   ########.fr       */
+/*   Created: 2024/02/29 15:39:31 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/03/02 11:36:18 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		length(char const *s)
+char	*ft_strtrim(char const *s, char const *set)
 {
-	char const *p;
+	size_t	last;
 
-	while ((*s == ' ' || *s == '\t' || *s == '\n') && *s)
-		s++;
-	p = s;
-	while (*s != '\0')
-		s++;
-	if (p != s)
-		s--;
-	while (*s == ' ' || *s == '\t' || *s == '\n')
-		s--;
-	return ((s - p) + 1);
-}
-
-char			*ft_strtrim(char const *s)
-{
-	char	*str;
-
-	if (s == NULL)
+	if (s == NULL || set == NULL)
 		return (NULL);
-	while ((*s == ' ' || *s == '\t' || *s == '\n') && *s)
+	while (*s && ft_strchr(set, *s))
 		s++;
-	str = ft_strsub(s, 0, length(s));
-	return (str);
+	last = ft_strlen(s);
+	while (last && ft_strrchr(set, s[last]))
+		last--;
+	return (ft_substr(s, 0, last + 1));
 }
+
+/*int	main(void)
+{
+	char s1[] = "lorem ipsum dolor sit amet";
+
+	printf("%s", ft_strtrim(s1, "te"));
+	return (0);
+}*/

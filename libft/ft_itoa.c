@@ -3,60 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Nik <Nik@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/30 15:32:09 by vinograd          #+#    #+#             */
-/*   Updated: 2019/06/28 18:14:47 by Nik              ###   ########.fr       */
+/*   Created: 2024/03/05 09:36:17 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/03/05 16:53:10 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	size(int i)
+static size_t	ft_len_number(int n)
 {
-	int size;
+	size_t	len;
 
-	if (i == 0)
-		return (2);
-	size = 1;
-	if (i < 0)
+	len = 0;
+	if (n <= 0)
+		len++;
+	while (n != 0)
 	{
-		i /= 10;
-		size += 2;
-		i = -i;
+		n = n / 10;
+		len++;
 	}
-	while (i > 0)
-	{
-		i /= 10;
-		size++;
-	}
-	return (size);
+	return (len);
 }
 
-char		*ft_itoa(int nbr)
+static long int	ft_abs(long int n)
 {
-	char	*str;
-	int		len;
-	int		sign;
+	if (n < 0)
+		return (-n);
+	return (n);
+}
 
-	if (nbr == -2147483648)
-		return (ft_strdup("-2147483648"));
-	len = size(nbr);
-	sign = 0;
-	if (nbr < 0)
-	{
-		sign = 1;
-		nbr = -nbr;
-	}
-	if ((str = (char *)malloc(len)) == NULL)
+char	*ft_itoa(int n)
+{
+	int			len;
+	long int	nbr;
+	char		*str;
+
+	nbr = ft_abs(n);
+	len = ft_len_number(n);
+	str = malloc(len + 1);
+	if (!str)
 		return (NULL);
-	str[--len] = '\0';
-	while (--len >= sign)
+	str[len] = '\0';
+	len--;
+	while (len >= 0)
 	{
-		str[len] = nbr % 10 + '0';
-		nbr /= 10;
+		str[len] = (nbr % 10) + 48;
+		nbr = nbr / 10;
+		len--;
 	}
-	if (sign)
+	if (n < 0)
 		str[0] = '-';
 	return (str);
 }

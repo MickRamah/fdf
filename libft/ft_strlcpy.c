@@ -1,47 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/22 17:06:29 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/02/28 16:42:16 by zramahaz         ###   ########.fr       */
+/*   Created: 2024/02/19 14:42:34 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/02/25 13:38:19 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*#include <stdio.h>
-#include <string.h>
 
-void	*ft_memchr(const void *s, int c, size_t size);
+size_t	ft_strlcpy(char *dest, char *src, size_t size);
 
-int	main()
+*int	main(void)
 {
-	char	data[] = "bonjour a tous";
-	char	search = 'a';
-	char	*p;
+	char	dest[50] = "bonjour tous le monde";
+	char	src[10] = "bonjour";
+	unsigned int	a;
 
-	p = ft_memchr(data, search, sizeof(char) * 14);
-	printf("%s ", p);
+	a = ft_strlcpy(dest, src, 2);
+	printf("len = %d \n", a);
 	return (0);
 }*/
 
-void	*ft_memchr(const void *s, int c, size_t size)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	int			i;
-	int			pos;
-	const char	*dest;
+	size_t	len;
 
-	dest = s;
-	pos = -1;
-	i = -1;
-	while (size-- && pos == -1)
-		if (dest[++i] == (char)c)
-			pos = i;
-	if (pos == -1)
-		return (NULL);
-	s = s + pos;
-	return ((void *)s);
+	if (size == 0)
+		return (ft_strlen(src));
+	len = 0;
+	while (*(src + len) && --size)
+		*(dest++) = *(src + len++);
+	*dest = '\0';
+	while (*(src + len))
+		++len;
+	return (len);
 }

@@ -1,47 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 15:32:15 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/03/05 15:08:15 by zramahaz         ###   ########.fr       */
+/*   Created: 2024/02/23 14:31:50 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/03/05 09:33:01 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*#include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include "libft.h"
 
-void	ft_bzero(void *str, size_t size);
+void	*ft_calloc(size_t n, size_t size);
 
-int	main()
+int	main(void)
 {
-	char	str1[20] = "bonjour";
-	char	str2[20] = "bonjour";
-	int	nb[20] = {0, 1, 2, 3, 4, 5, 6, 7};
+	char	*s1;
+	char	*s2;
 	int	i;
 
-	ft_bzero(str1 + 3, 2);
-	bzero(str2 + 3, 2);
-	ft_bzero(nb + 3, 8);
+	s1 = (char *)calloc(10, sizeof(char));
+	s2 = (char *)ft_calloc(10, sizeof(char));
 	i = -1;
-	while (++i < 7)
-		printf("str[%d] = %c\n ", i, str1[i]);
+	while (++i < 20)
+		printf("adress = %p et s[%d]= %c\n", &s1[i], i, s1[i]);
+	i = -1;
 	printf("\n");
-	i = -1;
-	while (++i < 7)
-		printf("str[%d] = %c\n ", i, str2[i]);
-	printf("\n");
-	i = -1;
-	while (++i < 7)
-		printf("str[%d] = %d\n ", i, nb[i]);
+	while (++i < 20)
+		printf("adress = %p et s[%d]= %c\n", &s2[i], i, s2[i]);
 	return (0);
 }*/
 
-void	ft_bzero(void *str, size_t size)
+void	*ft_calloc(size_t n, size_t size)
 {
-	ft_memset(str, '\0', size);
+	void	*str;
+
+	str = malloc(size * n);
+	if (!str)
+		return (NULL);
+	ft_bzero(str, n * size);
+	return (str);
 }

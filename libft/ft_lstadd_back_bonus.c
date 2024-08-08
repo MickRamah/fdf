@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/03 12:37:45 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/03/03 13:14:17 by zramahaz         ###   ########.fr       */
+/*   Created: 2024/03/07 06:54:46 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/03/07 10:49:09 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putchar_fd(char c, int fd)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	write(fd, &c, 1);
+	t_list	*p;
+
+	if (*lst)
+	{
+		new->next = NULL;
+		p = *lst;
+		while (p->next)
+			p = p->next;
+		p->next = new;
+	}
+	else
+		*lst = new;
 }
-
-/*int	main(void)
-{
-	char	c;
-	int	nb;
-
-	c = 'm';
-	nb = 1;
-	ft_putchar_fd(c, nb);
-}*/

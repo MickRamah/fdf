@@ -3,39 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vinograd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/06 15:16:23 by vinograd          #+#    #+#             */
-/*   Updated: 2019/05/06 20:23:44 by vinograd         ###   ########.fr       */
+/*   Created: 2024/02/29 15:00:30 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/02/29 15:54:53 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+static char	*ft_strcpy(char *dest, char const *src)
+{
+	int	i;
+
+	i = -1;
+	while (src[++i] != '\0')
+		dest[i] = src[i];
+	dest[i] = '\0';
+	return (dest);
+}
+
+static char	*ft_strcat(char *dest, char const *src)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (dest[i])
+		i++;
+	j = -1;
+	while (src[++j])
+		dest[i++] = src[j];
+	dest[i] = '\0';
+	return (dest);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*str;
-	char	*res;
+	char	*dest;
 	size_t	len;
 
-	if (s1 == NULL || s2 == NULL)
+	len = ft_strlen(s1);
+	len += ft_strlen(s2);
+	dest = (char *)malloc(len + 1);
+	if (!dest)
 		return (NULL);
-	len = ft_strlen(s1) + ft_strlen(s2);
-	if ((str = (char *)malloc(len + 1)) == NULL)
-		return (NULL);
-	res = str;
-	while (*s1)
-	{
-		*str = *s1;
-		str++;
-		s1++;
-	}
-	while (*s2)
-	{
-		*str = *s2;
-		str++;
-		s2++;
-	}
-	*str = '\0';
-	return (res);
+	ft_strcpy(dest, s1);
+	ft_strcat(dest, s2);
+	return (dest);
 }

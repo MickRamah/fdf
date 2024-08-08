@@ -6,116 +6,99 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:17:09 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/23 16:05:07 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:13:30 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-// -lmlx -lXext- lX11
-//cc *.c -L../Libft -lft -L../minilibx-linux
-// -lmlx -lXext -lX11 -lm -o fdf
-// gcc *.c libft/libft.a minilibx-linux/libmlx.a -lX11 -lm -lXext
+// gcc *.c get_next_line/*.c  libft/libft.a minilibx-linux/libmlx.a -lX11 -lm -lXext
 
-void    ft_do_it(int key, t_dot **matrix)
+void	ft_do_it(int key, t_dot **tab)
 {
-    if (key == 65451)
-        PRM.scale += 3;
-    if (key == 65453)
-        PRM.scale -= 3;
-    if (key == 65362)
-        PRM.z_scale += 1;
-    if (key == 65364)
-        PRM.z_scale -= 1;
-    if (key == 97)
-        PRM.shift_x -= 10;
-    if (key == 100)
-        PRM.shift_x += 10;
-    if (key == 119)
-        PRM.shift_y -= 10;
-    if (key == 115)
-        PRM.shift_y += 10;
-    if (key == 65433)
-        PRM.angle += 0.05;
-    if (key == 65431)
-        PRM.angle -= 0.05;
-        
+	if (key == 65451)
+		if (tab[0][0].scale < 100)
+			tab[0][0].scale += 1;
+	if (key == 65453)
+		if (tab[0][0].scale > 2)
+			tab[0][0].scale -= 1;
+	if (key == 65362)
+		if (tab[0][0].z_scale < 50)
+			tab[0][0].z_scale += 1;
+	if (key == 65364)
+		if (tab[0][0].z_scale > -50)
+			tab[0][0].z_scale -= 1;
+	if (key == 97)
+		tab[0][0].shift_x -= 10;
+	if (key == 100)
+		tab[0][0].shift_x += 10;
+	if (key == 119)
+		tab[0][0].shift_y -= 10;
+	if (key == 115)
+		tab[0][0].shift_y += 10;
+	if (key == 65433)
+		tab[0][0].angle += 0.05;
+	if (key == 65431)
+		tab[0][0].angle -= 0.05;
 }
 
-int    is_key(int key)
+int	is_key(int key)
 {
-    return (key == 65453 || key == 65451 || key == 65362 || key == 65364 || \
-    key == 97 || key == 100 || key == 119 || key == 115 || key == 65431 || \
-    key == 65433);
+	return (key == 65453 || key == 65451 || key == 65362 || key == 65364 || \
+	key == 97 || key == 100 || key == 119 || key == 115 || key == 65431 || \
+	key == 65433);
 }
 
-int    deal_key(int key, t_dot **matrix)
+int	deal_key(int key, t_dot **tab)
 {
-    ft_printf("%d\n", key);
-    if (is_key(key))
-    {
-        mlx_destroy_image(PRM.mlx_ptr, PRM.img);
-        mlx_clear_window(PRM.mlx_ptr, PRM.win_ptr);
-        
-        PRM.img =\
-    mlx_new_image(PRM.mlx_ptr, PRM.win_x, PRM.win_y);
-        PRM.data_addr =\
-    mlx_get_data_addr(PRM.img, &PRM.bits_per_pixel, &PRM.line_length, &PRM.endian);
-    
-        ft_do_it(key, matrix);
-        ft_draw(matrix);
-    }
-    if (key == 65307)
-    {
-        int i;
-        /*free*/
-        mlx_destroy_image(PRM.mlx_ptr, PRM.img);
-	    mlx_destroy_window(PRM.mlx_ptr, PRM.win_ptr);
-	    mlx_destroy_display(PRM.mlx_ptr);
-        free(PRM.mlx_ptr);
-        i = 0;
-        while (matrix[i])
-            free(matrix[i++]);
-        free(matrix);
-		exit(0);
-    }
-    return (0);
+	if (is_key(key))
+	{
+		mlx_destroy_image(tab[0][0].mlx, tab[0][0].img);
+		mlx_clear_window(tab[0][0].mlx, tab[0][0].win);
+		tab[0][0].img = \
+		mlx_new_image(tab[0][0].mlx, tab[0][0].win_x, tab[0][0].win_y);
+		tab[0][0].data_addr = \
+		mlx_get_data_addr((**tab).img, &(**tab).bpp, &(**tab).size, &(**tab).e);
+		ft_do_it(key, tab);
+		ft_draw(tab);
+	}
+	if (key == 65307)
+		ft_close_window(tab);
+	return (0);
 }
 
 void	set_default(t_dot *param)
 {
-	param->scale = 20;
+	param->scale = 2;
 	param->z_scale = 1;
 	param->is_isometric = 1;
 	param->angle = 0.523599;
-	param->win_x = 2000; // longueur du fenetre
-	param->win_y = 1000; // largeur du fenetre
-	param->shift_x = param->win_x / 3; // point de depart suivant x
-	param->shift_y = param->win_y / 3; // point de depart suivant y
-	param->mlx_ptr = mlx_init();
-	param->win_ptr =\
-    mlx_new_window(param->mlx_ptr, param->win_x, param->win_y, "FDF");
-    param->img =\
-    mlx_new_image(param->mlx_ptr, param->win_x, param->win_y);
-    param->data_addr =\
-    mlx_get_data_addr(param->img, &param->bits_per_pixel, &param->line_length, &param->endian);
+	param->win_x = 2000;
+	param->win_y = 1000;
+	param->shift_x = param->win_x / 3;
+	param->shift_y = param->win_y / 3;
+	param->mlx = mlx_init();
+	param->win = \
+	mlx_new_window(param->mlx, param->win_x, param->win_y, "FDF");
+	param->img = \
+	mlx_new_image(param->mlx, param->win_x, param->win_y);
+	param->data_addr = \
+	mlx_get_data_addr(param->img, &param->bpp, &param->size, &param->e);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_dot	**matrix;
+	t_dot	**tab;
 
-    if (argc != 2)
-    {
-        ft_printf("usage: ./fdf <file_map>\n");
-        exit(0);
-    }
-    matrix = read_map(argv[1]); // allocation
-    // printf("data.height = %d\n", data.height);
-    printf("data.width = %d\n", matrix[0][0].is_last);
-    set_default(&PRM);
-    ft_draw(matrix);
-    mlx_key_hook(PRM.win_ptr, deal_key, matrix);
-    mlx_loop(PRM.mlx_ptr); // pour garder la fenetre ouverte
-    return (0);
+	if (argc != 2)
+	{
+		write(1, "usage: ./fdf <file_map>\n", 24);
+		exit(0);
+	}
+	tab = read_map(argv[1]);
+	set_default(&tab[0][0]);
+	ft_draw(tab);
+	mlx_key_hook(tab[0][0].win, deal_key, tab);
+	mlx_loop(tab[0][0].mlx);
+	return (0);
 }

@@ -3,25 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vinograd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/02 01:15:13 by vinograd          #+#    #+#             */
-/*   Updated: 2019/05/14 19:27:36 by vinograd         ###   ########.fr       */
+/*   Created: 2024/02/21 08:03:57 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/02/28 15:27:24 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-void	*ft_memcpy(void *restrict dst, void *restrict src, size_t n)
+/*#include <stdio.h>
+#include <string.h>
+
+void	*ft_memcpy(void *dest, const void *src, size_t size);
+
+int	main()
 {
-	size_t i;
+	char src[5] = {'a', 'b', '\0', 'c', 'd'};
+	char dest[20] = "Bonjour";
+	char	*ptr;
 
+	//ft_memcpy(dest, src, 5);
+	ptr = memcpy(dest, src, 5);
+	for (int i = 0; i < 20; i++)
+		printf("%c ", ptr[i]);
+	return (0);
+}*/
+
+void	*ft_memcpy(void *dest, const void *src, size_t size)
+{
+	size_t	i;
+
+	if (!dest && !src)
+		return (NULL);
 	i = 0;
-	while (i < n)
+	while (i < size)
 	{
-		((char*)dst)[i] = *(char*)src;
-		src++;
+		*(unsigned char *)(dest + i) = *(unsigned char *)(src + i);
 		i++;
 	}
-	return (dst);
+	return ((void *)dest);
 }

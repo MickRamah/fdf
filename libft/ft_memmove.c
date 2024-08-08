@@ -3,31 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vinograd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zramahaz <zramahaz@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/02 17:11:09 by vinograd          #+#    #+#             */
-/*   Updated: 2019/05/14 19:28:27 by vinograd         ###   ########.fr       */
+/*   Created: 2024/02/20 16:10:25 by zramahaz          #+#    #+#             */
+/*   Updated: 2024/02/28 15:26:44 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+/*#include <stdio.h>
+#include <string.h>
+
+void	*ft_memmove(void *dest, const void *src, size_t size);
+
+int	main()
 {
-	unsigned char *p_dst;
-	unsigned char *p_src;
+	char	src[20] = "start stop";
+	ft_memmove(src, src + 6, 4* sizeof(char));
+	printf("%s ", src);
+	return (0);
+}*/
 
-	p_dst = (unsigned char*)dst;
-	p_src = (unsigned char*)src;
-	if (dst >= src)
-		while (len--)
-			p_dst[len] = p_src[len];
-	else
-		while (len--)
+void	*ft_memmove(void *d, const void *s, size_t size)
+{
+	size_t	i;
+
+	if (!d && !s)
+		return (NULL);
+	i = 0;
+	if (d < s)
+	{
+		while (i < size)
 		{
-			*p_dst = *p_src;
-			p_src++;
-			p_dst++;
+			*(unsigned char *)(d + i) = *(unsigned char *)(s + i);
+			i++;
 		}
-	return (dst);
+	}
+	else
+		while (size--)
+			*(unsigned char *)(d + size) = *(unsigned char *)(s + size);
+	return (d);
 }
