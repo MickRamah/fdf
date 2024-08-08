@@ -6,7 +6,7 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 10:07:44 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/08/08 10:10:36 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:55:32 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_set_param(t_dot *a, t_dot *b, t_dot *param)
 	b->y += param->shift_y;
 }
 
-void	trace_line(t_dot a, t_dot b, t_dot *param)
+void	ft_trace_line(t_dot a, t_dot b, t_dot *param)
 {
 	float	step_x;
 	float	step_y;
@@ -100,9 +100,9 @@ void	ft_draw(t_dot **tab)
 		while (x < width)
 		{
 			if (x < width - 1)
-				trace_line(tab[y][x], tab[y][x + 1], &tab[0][0]);
+				ft_trace_line(tab[y][x], tab[y][x + 1], &tab[0][0]);
 			if (y < height - 1)
-				trace_line(tab[y][x], tab[y + 1][x], &tab[0][0]);
+				ft_trace_line(tab[y][x], tab[y + 1][x], &tab[0][0]);
 			x++;
 		}
 		y++;

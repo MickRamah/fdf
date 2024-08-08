@@ -6,7 +6,7 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:33:08 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/27 15:43:32 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/08/08 11:40:40 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static int	ft_count_strs(char const *s, char c)
 	size_t	i;
 	size_t	nb_strs;
 
+	if (!s)
+		exit(0);
 	i = 0;
 	nb_strs = 0;
 	if (!s[0])
@@ -112,7 +114,7 @@ int	get_dots_from_line(char *line, t_dot **tab, int y)
 	return (x);
 }
 
-t_dot	**read_map(char *file_name)
+t_dot	**ft_read_map(char *file_name)
 {
 	t_dot	**matrix_of_dots;
 	int		y;

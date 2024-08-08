@@ -6,7 +6,7 @@
 /*   By: zramahaz <zramahaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:52:22 by zramahaz          #+#    #+#             */
-/*   Updated: 2024/07/27 15:48:25 by zramahaz         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:54:21 by zramahaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_get_size_map(int	*height, int *width, t_dot **tab)
 	*width = j;
 }
 
-void	ft_close_window(t_dot **tab)
+int	ft_close_window(t_dot **tab)
 {
 	int	i;
 
@@ -61,5 +61,5 @@ void	ft_close_window(t_dot **tab)
 	while (tab[i])
 		free(tab[i++]);
 	free(tab);
-	exit(0);
+	exit(1);
 }
